@@ -1,0 +1,15 @@
+H:\projects\spring-boot-security-master\spring-boot-security-master\src\main\java\org\thinkingingis\utils\QRCodeUtils.java
+H:\projects\spring-boot-security-master\spring-boot-security-master\src\main\java\org\thinkingingis\service\TaxService.java
+H:\projects\spring-boot-security-master\spring-boot-security-master\src\main\java\org\thinkingingis\config\SpringSecurityConfig.java
+H:\projects\spring-boot-security-master\spring-boot-security-master\src\main\java\org\thinkingingis\model\Tax.java
+H:\projects\spring-boot-security-master\spring-boot-security-master\src\main\java\org\thinkingingis\utils\QRCodeGenerator.java
+H:\projects\spring-boot-security-master\spring-boot-security-master\src\main\java\org\thinkingingis\service\impl\TaxServiceImpl.java
+H:\projects\spring-boot-security-master\spring-boot-security-master\src\main\java\org\thinkingingis\enums\YseOrNo.java
+H:\projects\spring-boot-security-master\spring-boot-security-master\src\main\java\org\thinkingingis\serializes\NumberSerializer.java
+H:\projects\spring-boot-security-master\spring-boot-security-master\src\main\java\org\thinkingingis\error\MyAccessDeniedHandler.java
+H:\projects\spring-boot-security-master\spring-boot-security-master\src\main\java\org\thinkingingis\controller\TaxController.java
+H:\projects\spring-boot-security-master\spring-boot-security-master\src\main\java\org\thinkingingis\enums\TaxType.java
+H:\projects\spring-boot-security-master\spring-boot-security-master\src\main\java\org\thinkingingis\SpringBootWebApplication.java
+H:\projects\spring-boot-security-master\spring-boot-security-master\src\main\java\org\thinkingingis\dao\TaxMapper.java
+H:\projects\spring-boot-security-master\spring-boot-security-master\src\main\java\org\thinkingingis\dto\TaxDTO.java
+H:\projects\spring-boot-security-master\spring-boot-security-master\src\main\java\org\thinkingingis\controller\DefaultController.java

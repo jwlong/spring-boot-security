@@ -1,0 +1,133 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/js/bootstrap-table-master/dist/bootstrap-table.css}" />
+    <style>
+    </style>
+  <!--  <script src="https://code.jquery.com/jquery-3.4.1.min.js"> </script>-->
+<!--    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.css" />
+    <script src="https://unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.js"></script>-->
+    <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+    <script th:src="@{/js/bootstrap-table-master/dist/bootstrap-table.js}"></script>
+    <script th:src="@{/js/bootstrap-table-master/dist/locale/bootstrap-table-zh-CN.js}"></script>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="container">
+    <div class="starter-template">
+        <h1>发票二维码</h1>
+    </div>
+</div>
+<div class="container">
+    <div>
+        PK:<span id="pk" th:text="${tax.taxPk}"></span>
+        发票代码：<span class="text-primary" id="spanTaxCode" th:text="${tax.taxCode}"></span>
+        发票号码：<span id="spanTaxNo" th:text="${tax.taxNo}"></span>
+        金额：<span id="spanAmount" th:text="${tax.amount}"></span>
+        开票日期：<span id="spanTaxDate" th:text="${tax.taxDateStr}"></span>
+    </div>
+    <img alt="qrcode" id="img" th:src="@{'/tax/createQrCode?taxPk='+${tax.taxPk}}" />
+    <button>上一张</button>
+    <button>下一张</button>
+    <button style="margin-left: 50px" class="btn-primary" id="nextBtn">扫描并进入下一张</button>
+    <h2>发票列表</h2>
+    <div>
+        <table id="mytable"></table>
+    </div>
+
+
+
+    <footer>
+     @power by jwlong
+    </footer>
+</div>
+</body>
+<script type="text/javascript">
+    //当控件加载完成执行此方法
+    let $table;
+   $(document).ready(function () {
+        $table = $("#mytable").bootstrapTable({
+            url:"/tax/list",  //请求地址
+            striped : true, //是否显示行间隔色
+            pageNumber : 1, //初始化加载第一页
+            pagination : true,//是否分页
+            showSearch:true,
+            sidePagination : 'client',//server:服务器端分页|client：前端分页
+            pageSize : 5,//单页记录数
+            showToggle:true,
+            pageList : [ 5, 10],//可选择单页记录数
+            showRefresh : true,//刷新按钮
+            columns : [ {
+                title : 'Key',
+                field : 'taxPk',
+                sortable : true
+            }, {
+                title : '发票类型',
+                field : 'taxTypeDesc',
+                sortable : true
+            }, {
+                title : '发票代码',
+                field : 'taxCode',
+                sortable : true
+            },{
+                title : '发票号码',
+                field : 'taxNo',
+                sortable : true
+            },
+                {
+                    title : '金额',
+                    field : 'amount',
+                    sortable : true
+                },
+                {
+                    title : '日期',
+                    field : 'taxDate',
+                    sortable : true
+                },
+                {
+                    title:'状态',
+                    formatter:function (value,row,index) {
+                        if (row.used === 'Y') {
+                            return  `<div style="color: red">已用</div>`
+                        }
+                        return '';
+                    }
+                },
+       ],
+            onClickRow:function(row, $element, field){
+                //console.log(row);
+                $("#img").attr("src","/tax/createQrCode?taxPk="+row.taxPk);
+            }
+        })
+
+        $table.on('click-row.bs.table', function (e, row, $element) {
+            $('.success').removeClass('success');
+            $($element).addClass('success');
+        });
+
+       $("#nextBtn").click(function () {
+           let pk = $("#pk").text();
+           $.ajax({
+               url:'/tax/markUsedAndNext',
+               type:'get',
+               data:{taxPk:pk},
+               success:function (resp) {
+                   $("#pk").text(resp.taxPk);
+                   $("#spanTaxCode").text(resp.taxCode);
+                   $("#spanTaxNo").text(resp.taxNo);
+                   $("#spanTaxDate").text(resp.taxDate);
+                   $("#spanAmount").text(resp.amount)
+                   $("#img").attr("src","/tax/createQrCode?taxPk="+resp.taxPk);
+               },
+               error:function (jqXHR, textStatus, errorThrown) {
+                   // console.log(JSON.parse(jqXHR.responseText).message)
+                   alert(JSON.parse(jqXHR.responseText).message);
+                   $table.bootstrapTable('refresh');
+               }
+           })
+       })
+    })
+
+</script>
+</html>

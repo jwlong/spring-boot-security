@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.thinkingingis.dao.TaxMapper">
+    <resultMap id="BaseResultMap" type="org.thinkingingis.model.Tax">
+        <id column="TAX_PK" jdbcType="BIGINT" property="taxPk" />
+        <result column="sid" jdbcType="NVARCHAR" property="sid" />
+        <result column="type" jdbcType="NVARCHAR" property="type" />
+        <result column="tax_code" jdbcType="NVARCHAR" property="taxCode" />
+        <result column="tax_no" jdbcType="NVARCHAR" property="taxNo" />
+        <result column="amount" jdbcType="NUMERIC" property="amount" />
+        <result column="taxDate" jdbcType="TIMESTAMP" property="taxDate" />
+        <result column="rec_date" jdbcType="TIMESTAMP" property="recDate" />
+        <result column="machine_no" jdbcType="NVARCHAR" property="machineNo" />
+        <result column="addition" jdbcType="NVARCHAR" property="addition" />
+        <result column="used" jdbcType="CHAR" property="used" />
+    </resultMap>
+    <select id="getList" resultType="org.thinkingingis.dto.TaxDTO">
+        select * from tax t
+        where 1=1
+        <choose>
+            <when test="used != null and used.trim() != '' ">
+                and t.used = #{used}
+            </when>
+        </choose>
+
+ <!--       <choose>
+            <when test="used">
+                t.used = 'Y'
+            </when>
+            <otherwise>
+                t.used is null or t.used = 'N'
+            </otherwise>
+        </choose>-->
+    </select>
+</mapper>
